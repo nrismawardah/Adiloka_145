@@ -1,3 +1,4 @@
+import 'package:adiloka/presentation/auth/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:adiloka/logic/blocs/auth/auth_bloc.dart';
@@ -27,7 +28,7 @@ class AdilokaApp extends StatelessWidget {
         routes: {
           '/': (context) => const LandingPage(),
           '/login': (context) => const LoginPage(),
-          //'/register': (context) => const RegisterPage(),
+          '/register': (context) => const RegisterPage(),
           //'/home': (context) =>
           //const Placeholder(), // Ganti nanti dengan HomePage()
           //'/admin': (context) =>
