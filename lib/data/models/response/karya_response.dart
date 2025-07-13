@@ -8,6 +8,7 @@ class KaryaModel {
   final int idUser;
   final String nama;
   final String? achievement;
+  final String? lokasi;
 
   KaryaModel({
     required this.idKarya,
@@ -18,6 +19,7 @@ class KaryaModel {
     required this.nama,
     required this.kategori,
     required this.daerah,
+    this.lokasi,
     this.achievement,
   });
 
@@ -31,6 +33,7 @@ class KaryaModel {
       nama: json['nama'],
       kategori: json['kategori'],
       daerah: json['daerah'],
+      lokasi: json['lokasi'],
       achievement: json['achievement'],
     );
   }

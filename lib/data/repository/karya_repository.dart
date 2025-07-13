@@ -27,6 +27,7 @@ class KaryaRepository {
     required String filePath,
     required double latitude,
     required double longitude,
+  
   }) async {
     String extension = filePath.split('.').last.toLowerCase();
     String mimeType = extension == 'png' ? 'png' : 'jpeg';
