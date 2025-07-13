@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:adiloka/logic/blocs/auth/auth_bloc.dart';
 import 'package:adiloka/logic/blocs/auth/auth_event.dart';
 import 'package:adiloka/logic/blocs/auth/auth_state.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -27,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is AuthLoading) {
           showDialog(
             context: context,
@@ -36,11 +37,20 @@ class _LoginPageState extends State<LoginPage> {
           );
         } else if (state is AuthSuccess) {
           Navigator.of(context).pop(); // Tutup loading
+
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('token', state.response.token);
+
+          // Navigasi sesuai role
           final role = state.response.user.role;
           if (role == 'admin') {
             Navigator.pushReplacementNamed(context, '/admin');
           } else {
-            Navigator.pushReplacementNamed(context, '/home');
+            Navigator.pushReplacementNamed(
+              context,
+              '/home',
+              arguments: state.response.user,
+            );
           }
         } else if (state is AuthFailure) {
           Navigator.of(context).pop(); // Tutup loading
@@ -183,9 +193,7 @@ class _LoginPageState extends State<LoginPage> {
                               Navigator.pushNamed(context, '/register');
                             },
                             style: TextButton.styleFrom(
-                              foregroundColor: Color(
-                                0xFF5C4033,
-                              ),
+                              foregroundColor: Color(0xFF5C4033),
                             ),
                             child: const Text(
                               'Daftar disini!',

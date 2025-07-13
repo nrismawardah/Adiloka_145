@@ -1,18 +1,4 @@
-class UserModel {
-  final int idUser;
-  final String nama;
-  final String role;
-
-  UserModel({required this.idUser, required this.nama, required this.role});
-
-  factory UserModel.fromJson(Map<String, dynamic> json) {
-    return UserModel(
-      idUser: json['id_user'],
-      nama: json['nama'],
-      role: json['role'],
-    );
-  }
-}
+import 'package:adiloka/data/models/response/user_response.dart';
 
 class LoginResponse {
   final String token;
@@ -23,7 +9,7 @@ class LoginResponse {
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
     return LoginResponse(
       token: json['token'],
-      user: UserModel.fromJson(json['user']),
+      user: UserModel.fromJson(json['user']), // ini pakai dari user_response
     );
   }
 }

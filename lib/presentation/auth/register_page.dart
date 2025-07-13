@@ -47,14 +47,12 @@ class _RegisterPageState extends State<RegisterPage> {
             barrierDismissible: false,
             builder: (_) => const Center(child: CircularProgressIndicator()),
           );
-        } else if (state is AuthSuccess) {
-          Navigator.pop(context); // Tutup loading
-          final role = state.response.user.role;
-          if (role == 'admin') {
-            Navigator.pushReplacementNamed(context, '/admin');
-          } else {
-            Navigator.pushReplacementNamed(context, '/home');
-          }
+        } else if (state is RegisterSuccess) {
+          Navigator.pop(context);
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(state.message)));
+          Navigator.pushReplacementNamed(context, '/login');
         } else if (state is AuthFailure) {
           Navigator.pop(context); // Tutup loading
           ScaffoldMessenger.of(

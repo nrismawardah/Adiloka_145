@@ -27,3 +27,12 @@ class AuthFailure extends AuthState {
   @override
   List<Object?> get props => [message];
 }
+
+class RegisterSuccess extends AuthState {
+  final String message;
+
+  RegisterSuccess(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}

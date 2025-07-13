@@ -4,6 +4,7 @@ import 'auth_state.dart';
 import 'package:adiloka/data/repository/auth_repository.dart';
 import 'package:adiloka/data/models/request/login_request.dart';
 import 'package:adiloka/data/models/request/register_request.dart';
+import 'package:adiloka/data/models/response/register_response.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository repository;
@@ -41,7 +42,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           password: event.password,
         ),
       );
-      emit(AuthSuccess(response));
+      emit(RegisterSuccess(response.message)); // Gunakan state baru
     } catch (e) {
       emit(AuthFailure('Registrasi gagal: ${e.toString()}'));
     }
