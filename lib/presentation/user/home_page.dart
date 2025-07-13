@@ -162,6 +162,7 @@ class _HomePageState extends State<HomePage> {
                               achievement: karya.achievement ?? '',
                               kategori: karya.kategori,
                               daerah: karya.daerah,
+                              lokasi: karya.lokasi ?? '',
                             ),
                           );
                         },
