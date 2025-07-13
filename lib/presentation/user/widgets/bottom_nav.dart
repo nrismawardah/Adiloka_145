@@ -1,4 +1,6 @@
+import 'package:adiloka/presentation/user/profil_page_user.dart';
 import 'package:adiloka/presentation/user/tambah_karya_page.dart';
+import 'package:adiloka/presentation/user/profil_page_user.dart'; // <- pastikan ini di-import
 import 'package:flutter/material.dart';
 
 class BottomNavBar extends StatelessWidget {
@@ -28,8 +30,13 @@ class BottomNavBar extends StatelessWidget {
             context,
             MaterialPageRoute(builder: (_) => const TambahKaryaPage()),
           );
+        } else if (index == 4) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const ProfilUserPage()),
+          );
         }
-        // Tambahkan navigasi lain jika perlu untuk index lainnya
+        // Tambahkan navigasi lainnya sesuai kebutuhan
       },
     );
   }

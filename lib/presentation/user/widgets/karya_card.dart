@@ -1,3 +1,5 @@
+import 'package:adiloka/data/models/response/karya_response.dart';
+import 'package:adiloka/presentation/user/detail_karya_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -13,6 +15,7 @@ class KaryaCard extends StatefulWidget {
   final String achievement;
   final String kategori;
   final String daerah;
+  final String lokasi;
 
   const KaryaCard({
     super.key,
@@ -24,6 +27,7 @@ class KaryaCard extends StatefulWidget {
     required this.achievement,
     required this.kategori,
     required this.daerah,
+    required this.lokasi,
   });
 
   @override
@@ -162,115 +166,146 @@ class _KaryaCardState extends State<KaryaCard> {
   @override
   Widget build(BuildContext context) {
     final List<String> emojis = ['👍', '❤️'];
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      elevation: 2,
-      color: const Color(0xFFFf5e2cd),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const CircleAvatar(
-                  radius: 18,
-                  backgroundImage: AssetImage('assets/images/ava_default.jpg'),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.nama,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      if (widget.achievement.isNotEmpty)
-                        Text(
-                          widget.achievement,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: Colors.brown,
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-                const Icon(Icons.report),
-              ],
-            ),
-            Divider(
-              color: Colors.brown.withOpacity(0.5),
-              thickness: 1,
-              height: 24,
-            ),
-            Text(
-              widget.judul,
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              widget.deskripsi,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-            const SizedBox(height: 12),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.network(
-                widget.gambar,
-                fit: BoxFit.cover,
-                height: 200,
-                width: double.infinity,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              '${widget.kategori} • ${widget.daerah}',
-              style: const TextStyle(fontSize: 13, color: Colors.brown),
-            ),
-            const SizedBox(height: 12),
-            Row(
-              children: emojis.map((emoji) {
-                final count = apresiasi[emoji] ?? 0;
+    return GestureDetector(
+      onTap: () {
+        print("Lokasi yang dikirim dari KaryaCard: ${widget.lokasi}");
 
-                return Padding(
-                  padding: const EdgeInsets.only(right: 12),
-                  child: GestureDetector(
-                    onTap: () {
-                      print("Clicked emoji: $emoji");
-                      handleEmojiTap(emoji);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: emojiUserSudahBerikan.contains(emoji)
-                            ? Colors.brown.withOpacity(0.2)
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: emojiUserSudahBerikan.contains(emoji)
-                              ? Colors.brown
-                              : Colors.transparent,
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          Text(emoji, style: const TextStyle(fontSize: 16)),
-                          const SizedBox(width: 4),
-                          Text('$count', style: const TextStyle(fontSize: 14)),
-                        ],
-                      ),
+        final karya = KaryaModel(
+          idKarya: widget.idKarya,
+          judul: widget.judul,
+          deskripsi: widget.deskripsi,
+          mimeType: '', // bisa diisi kalau tersedia
+          kategori: widget.kategori,
+          daerah: widget.daerah,
+          idUser: 0, // isi jika tahu ID user
+          nama: widget.nama,
+          achievement: widget.achievement,
+          lokasi: widget.lokasi, // bisa diset jika ada lokasi
+        );
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => DetailKaryaPage(karya: karya)),
+        );
+      },
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        elevation: 2,
+        color: const Color(0xFFFf5e2cd),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage(
+                      'assets/images/ava_default.jpg',
                     ),
                   ),
-                );
-              }).toList(),
-            ),
-          ],
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.nama,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        if (widget.achievement.isNotEmpty)
+                          Text(
+                            widget.achievement,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.brown,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                  const Icon(Icons.report),
+                ],
+              ),
+              Divider(
+                color: Colors.brown.withOpacity(0.5),
+                thickness: 1,
+                height: 24,
+              ),
+              Text(
+                widget.judul,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                widget.deskripsi,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(height: 12),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.network(
+                  widget.gambar,
+                  fit: BoxFit.cover,
+                  height: 200,
+                  width: double.infinity,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                '${widget.kategori} • ${widget.daerah}',
+                style: const TextStyle(fontSize: 13, color: Colors.brown),
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: emojis.map((emoji) {
+                  final count = apresiasi[emoji] ?? 0;
+
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 12),
+                    child: GestureDetector(
+                      onTap: () {
+                        print("Clicked emoji: $emoji");
+                        handleEmojiTap(emoji);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: emojiUserSudahBerikan.contains(emoji)
+                              ? Colors.brown.withOpacity(0.2)
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: emojiUserSudahBerikan.contains(emoji)
+                                ? Colors.brown
+                                : Colors.transparent,
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Text(emoji, style: const TextStyle(fontSize: 16)),
+                            const SizedBox(width: 4),
+                            Text(
+                              '$count',
+                              style: const TextStyle(fontSize: 14),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
         ),
       ),
     );
