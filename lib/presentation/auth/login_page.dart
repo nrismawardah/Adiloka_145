@@ -40,6 +40,7 @@ class _LoginPageState extends State<LoginPage> {
 
           final prefs = await SharedPreferences.getInstance();
           await prefs.setString('token', state.response.token);
+          print("Token yang disimpan: ${state.response.token}");
 
           // Navigasi sesuai role
           final role = state.response.user.role;

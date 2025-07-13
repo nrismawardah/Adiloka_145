@@ -10,6 +10,8 @@ abstract class KaryaState extends Equatable {
 
 class KaryaInitial extends KaryaState {}
 
+class KaryaUploading extends KaryaState {}
+
 class KaryaLoading extends KaryaState {}
 
 class KaryaLoaded extends KaryaState {
@@ -20,6 +22,8 @@ class KaryaLoaded extends KaryaState {
   @override
   List<Object?> get props => [karyaList];
 }
+
+class KaryaUploaded extends KaryaState {}
 
 class KaryaError extends KaryaState {
   final String message;
